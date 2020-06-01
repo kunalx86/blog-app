@@ -164,6 +164,17 @@ footer {
     margin-left: 25%;
 }
 
+.media {
+    display: flex;
+    flex-direction: row;
+}
+
+.media-body {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1.5%;
+}
+
 .account-img {
     margin: 1rem;
     margin-bottom: 1rem;
@@ -191,5 +202,8 @@ footer {
         margin-left: 0;
         margin-right: 0;
         width: 100%;
+    }
+    .media-body {
+        margin-top: 4%;
     }
 }
