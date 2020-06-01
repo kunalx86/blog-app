@@ -44,7 +44,8 @@ body {
 
 .container {
     width: auto;
-    margin-right: 20rem;
+    margin-right: 25%;
+    margin-left: 25%;
     margin-bottom:1.5rem;
     padding: 10px;
     padding-bottom: 50px;
@@ -75,7 +76,6 @@ body {
     border-radius: 0.3rem;
     /* box-shadow: 3px 3px 7px 7px #ccc; */
 }
-
 
 .date-author {
     padding-top: 0.3rem;
@@ -128,14 +128,14 @@ footer {
 }
 
 .register {
-    margin-left: 20%;
-    margin-right: auto;
-    width: auto;
-    height: auto;
+    display: flex;
 }
 
 .register-form {
     padding: 2rem;
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
 }
 
 *.btn-outline-info {
@@ -172,6 +172,7 @@ footer {
 @media only screen and (max-width: 600px) {
     .container {
         margin-right: 0;
+        margin-left: 0;
         font-size: small;
     }
     .post {
@@ -185,5 +186,10 @@ footer {
     .register {
         margin-left: 0;
         margin-right: 0;
+    }
+    .register-form {
+        margin-left: 0;
+        margin-right: 0;
+        width: 100%;
     }
 }
