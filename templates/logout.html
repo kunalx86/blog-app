@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<!-- <h1 class="header-register"> Login Now </h1> -->
+<style> 
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+</style>
+<div class="register">
+    <div class="content-section container register-form">
+    <fieldset class="form-group">
+        <legend class="border-bottom">You have logged out!</legend>
+    </fieldset>
+    <div style="margin-top: 0;" class="pt-3">
+        <small class="text-muted">
+            Log In again? <a class="ml-2" href="{% url 'login' %}">Click Here!</a>
+        </small>
+    </div>
+</div>
+</div>
+<script type="text/javascript">
+    const navbar = document.querySelector('.navbar');
+    console.log(navbar);
+    navbar.childNodes[7].classList.add('selected');
+</script>
+{% endblock content %}

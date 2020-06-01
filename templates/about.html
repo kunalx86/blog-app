@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<style> 
+    footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+    }
+    </style>
+<script>
+    const navbar = document.querySelector('.navbar');
+    navbar.childNodes[3].classList.add('selected');
+</script>
+{% endblock %}

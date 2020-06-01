@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<!-- <h1 class="header-register"> Login Now </h1> -->
+<style> 
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+</style>
+<div class="register">
+    <div class="content-section container register-form">
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom">Log In!</legend>
+        </fieldset>
+        {{ form|crispy }}
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Log In!</button>
+        </div>
+        <div class="border-top pt-3">
+            <small class="text-muted">
+                Don't have an account? <a class="ml-2" href="{% url 'register' %}">Register!</a>
+            </small>
+        </div>
+    </form>
+</div>
+</div>
+<script type="text/javascript">
+    const navbar = document.querySelector('.navbar');
+    console.log(navbar);
+    navbar.childNodes[7].classList.add('selected');
+</script>
+{% endblock content %}
