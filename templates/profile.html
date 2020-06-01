@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<style> 
+    footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+    }
+</style>
+{% if user.profile %}
+    <div class="content-section container profile-card">
+        <div class="media">
+            <img class="rounded-circle account-img" width="60px" height="60px" src="{{ user.profile.image.url }}"/>
+            <div class="media-body">
+                <h2 class="account-heading">{{ user.profile.name }}</h2>
+                <p class="text-secondary">{{ user.email }}</p>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+{% if not user.profile %}
+<h4>Not registerd for profile</h4>
+{% endif %}
+<script>
+    const navbar = document.querySelector('.navbar');
+    navbar.childNodes[5].childNodes[1].classList.add('selected');
+</script>
+{% endblock %}
