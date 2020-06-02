@@ -41,7 +41,7 @@ def profile_edit(request):
 
 @login_required
 def profile(request):
-    posts = Post.objects.filter(author=request.user).all()
+    posts = Post.objects.filter(author=request.user).all().order_by('date_posted').reverse()
     context = {
         'posts': posts,
     }
@@ -49,7 +49,7 @@ def profile(request):
 
 def profile_id(request, pk):
     profile_user = User.objects.filter(id=pk).first()
-    posts = Post.objects.filter(author=profile_user).all()
+    posts = Post.objects.filter(author=profile_user).all().order_by('date_posted').reverse()
     context = {
         'profile_user': profile_user,
         'posts': posts,
