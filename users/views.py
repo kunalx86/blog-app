@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import ListView
 from blog.models import Post
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from .models import Profile
@@ -39,19 +41,28 @@ def profile_edit(request):
     }
     return render(request, "profile_edit.html", context)
 
-@login_required
-def profile(request):
-    posts = Post.objects.filter(author=request.user).all().order_by('date_posted').reverse()
-    context = {
-        'posts': posts,
-    }
-    return render(request, "profile.html", context)
+class ProfileListView(LoginRequiredMixin, ListView):
+    model = Post
+    paginate_by = 2
+    template_name = 'profile.html'
+    context_object_name = 'posts'
+    ordering = ['-date_posted']
 
-def profile_id(request, pk):
-    profile_user = User.objects.filter(id=pk).first()
-    posts = Post.objects.filter(author=profile_user).all().order_by('date_posted').reverse()
-    context = {
-        'profile_user': profile_user,
-        'posts': posts,
-    }
-    return render(request, 'profile_id.html', context)
+    def get_queryset(self):
+        return Post.objects.filter(author=self.request.user).all()
+
+class ProfileIdListView(ListView):
+    model = Post
+    paginate_by = 2
+    template_name = 'profile_id.html'
+    context_object_name = 'posts'
+    ordering = ['-date_posted']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['profile_user'] = User.objects.filter(id=self.kwargs['pk']).first()
+        return context
+
+    def get_queryset(self):
+        user_id = self.kwargs['pk']  
+        return Post.objects.filter(author=user_id).all()

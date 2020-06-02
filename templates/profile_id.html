@@ -10,11 +10,7 @@
         </div>
     </div>
 </div>
-<div class="container">   
-    {% if posts %}
-        {% include 'posts.html' %}
-    {% else %}
-        <h2 style="padding: 2rem">No Posts uploaded by user</h2>
-    {% endif %}
+<div class="container">
+    {% include 'posts.html' %}   
 </div>
 {% endblock %}
