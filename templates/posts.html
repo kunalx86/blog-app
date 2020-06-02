@@ -2,7 +2,7 @@
     {% for post in posts %}
     <div class="post">
         <div class="title">
-            <a class="article-title" href="/post/{{post.id}}"><h2>{{ post.title }}</h2></a>
+            <a class="article-title" href="{% url 'post-detail' post.id %}"><h2>{{ post.title }}</h2></a>
         </div>
         <hr/>
         <div class="media">
