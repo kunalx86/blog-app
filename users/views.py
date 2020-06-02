@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from blog.models import Post
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from .models import Profile
 
@@ -20,7 +21,7 @@ def register(request):
     return render(request, "register.html", context)
 
 @login_required
-def profile(request):
+def profile_edit(request):
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=request.user)
         p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
@@ -36,11 +37,21 @@ def profile(request):
         'u_form': u_form,
         'p_form': p_form
     }
+    return render(request, "profile_edit.html", context)
+
+@login_required
+def profile(request):
+    posts = Post.objects.filter(author=request.user).all()
+    context = {
+        'posts': posts,
+    }
     return render(request, "profile.html", context)
 
 def profile_id(request, pk):
     profile_user = User.objects.filter(id=pk).first()
+    posts = Post.objects.filter(author=profile_user).all()
     context = {
-        'user': profile_user
+        'profile_user': profile_user,
+        'posts': posts,
     }
     return render(request, 'profile_id.html', context)

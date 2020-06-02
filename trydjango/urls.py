@@ -18,12 +18,13 @@ from django.urls import path, include
 from django.contrib.auth.views import LoginView, LogoutView
 from django.conf import settings
 from django.conf.urls.static import static
-from users.views import profile, profile_id
+from users.views import profile, profile_id, profile_edit
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('blog.urls')),
     path('profile/', profile, name='profile'),
+    path('profile/edit', profile_edit, name='profile-edit'),
     path('profiles/<int:pk>/', profile_id),
     path('register/', include('users.urls')),
     path('login/', LoginView.as_view(template_name='login.html'), name='login'),

@@ -3,11 +3,18 @@
 {% block content %}
 <div class="content-section container profile-card">
     <div class="media">
-        <img class="rounded-circle account-img" width="60px" height="60px" src="{{ user.profile.image.url }}"/>
+        <img class="rounded-circle account-img" width="60px" height="60px" src="{{ profile_user.profile.image.url }}"/>
         <div class="media-body">
-            <h2 class="account-heading">{{ user.profile.name }}</h2>
-            <p class="text-secondary">{{ user.email }}</p>
+            <h2 class="account-heading">{{ profile_user.profile.name }}</h2>
+            <p class="text-secondary">{{ profile_user.email }}</p>
         </div>
     </div>
+</div>
+<div class="container">   
+    {% if posts %}
+        {% include 'posts.html' %}
+    {% else %}
+        <h2 style="padding: 2rem">No Posts uploaded by user</h2>
+    {% endif %}
 </div>
 {% endblock %}

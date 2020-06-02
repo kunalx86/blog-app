@@ -27,6 +27,14 @@ body {
     margin: 0px;
 }
 
+.nav-link:active {
+    color: white;
+}
+
+.nav-link:hover {
+    color: white;
+}
+
 .selected {
     color: white;
 }
@@ -56,7 +64,7 @@ body {
 .greeting {
     margin: 1.5rem;
     padding: 1rem;
-    font-size: larger;
+    font-size: x-large;
 }
 
 .posts {
@@ -73,11 +81,19 @@ body {
     margin-right: auto;
     padding: 1rem;
     border: 2px solid rgb(200, 200, 200);
-    border-radius: 0.3rem;
+    border-radius: 1rem;
     /* box-shadow: 3px 3px 7px 7px #ccc; */
 }
 
-*.article-title {
+.article-title {
+    color: rgb(29, 29, 29);
+}
+
+.article-title:hover {
+    color: rgb(29, 29, 29);
+}
+
+.article-title:active {
     color: rgb(29, 29, 29);
 }
 

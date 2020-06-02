@@ -1,0 +1,31 @@
+<div class="posts">
+    {% for post in posts %}
+    <div class="post">
+        <div class="title">
+            <a class="article-title" href="/post/{{post.id}}"><h2>{{ post.title }}</h2></a>
+        </div>
+        <hr/>
+        <div class="media">
+            <!-- TODO: Add the profile pic somewhere -->
+            <div class="date" style="margin-top: 0.4rem;">
+                {{post.date_posted|date:"M d Y"}}
+            </div>
+            <div class="author">
+                {% if request.user.is_authenticated and request.user.id == post.author.id %}
+                    <a class="article-title" href="/profile">
+                {% else %}
+                    <a class="article-title" href="/profiles/{{post.author.id}}">
+                {% endif %}
+                {{post.author}}
+                </a>
+                <img class="rounded-circle account-img" width="30px" height="30px" style="margin: 0.1rem;" src="{{ user.profile.image.url }}"/>
+
+            </div>
+        </div>
+        <hr/>
+        <div class="content">
+            {{post.content|truncatechars:60 }}
+        </div>
+    </div>
+    {% endfor %}
+</div>
