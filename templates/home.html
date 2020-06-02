@@ -3,7 +3,13 @@
 {% block content %}
 <div class="container">
     <div class="greeting">
-        Hello, {{ request.user }}!
+        <!-- Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a> -->
+        Hello, {{ request.user }}! <br/>
+        {% if user.is_authenticated %}
+        <div class="new-link">
+            <a class="btn btn-outline-info" href="{% url 'post-create' %}" style="font-size: small;">Create</a>
+        </div>
+        {% endif %}
     </div>
     <hr style="height: 0.3px;"/>
     {% include 'posts.html' %}

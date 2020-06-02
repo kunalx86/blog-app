@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load crispy_forms_tags %}
 {% block content %}
 <div class="content-section container profile-card">
     <div class="media">
@@ -7,11 +6,34 @@
         <div class="media-body">
             <h2 class="account-heading">{{ user.profile.name }}</h2>
             <p style="margin: 0.3rem" class="text-secondary">{{ user.email }}</p>
+            <a class="article-title" href="{% url 'post-create' %}" style="font-size: large;">Click to write a new blog!</a>
         </div>
     </div>
 </div>
 <div class="container">   
-    {% include 'posts.html' %}
+    <div class="posts">
+        {% for post in posts %}
+        <div class="post">
+            <div class="title">
+                <a class="article-title" href="{% url 'post-detail' post.id %}"><h2>{{ post.title }}</h2></a>
+            </div>
+            <hr/>
+            <div class="media">
+                <div class="date" style="margin-top: 0.4rem;">
+                    {{post.date_posted|date:"M d Y"}}
+                </div>
+                <div class="author">
+                    <a class="btn btn-outline-danger" href="{% url 'post-delete' post.id %}"> Delete </a> 
+                    <a class="btn btn-outline-secondary" href="{% url 'post-update' post.id %}"> Update </a> 
+                </div>
+            </div>
+            <hr/>
+            <div class="content">
+                {{post.content|truncatechars:60 }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 </div>
 <div class="container" style="display: flex; justify-content: center;">
     Click<a href="{% url 'profile-edit' %}" style="padding-left: 0.4rem; padding-right: 0.4rem;"> here </a>to edit your information.
