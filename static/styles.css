@@ -77,6 +77,10 @@ body {
     /* box-shadow: 3px 3px 7px 7px #ccc; */
 }
 
+*.article-title {
+    color: rgb(29, 29, 29);
+}
+
 .date-author {
     padding-top: 0.3rem;
     display: flex;
@@ -178,6 +182,16 @@ footer {
 .account-img {
     margin: 1rem;
     margin-bottom: 1rem;
+}
+
+.post-container {
+    padding: 10px;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+.post-detail {
+    border-color: white;
+    width: 80%;
 }
 
 @media only screen and (max-width: 600px) {

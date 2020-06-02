@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style> 
+    footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+    }
+    </style>
+<div class="container post-container">
+    <div class="post post-detail">
+        <div class="title">
+            <h2>{{ post.title }}</h2>
+        </div>
+        <hr/>
+        <div class="date-author">
+            <!-- TODO: Add the profile pic somewhere -->
+            <div class="date">
+                {{post.date_posted|date:"M d Y"}}
+            </div>
+            <div class="author">
+                {{post.author}}
+            </div>
+        </div>
+        <hr/>
+        <div class="content">
+            {{post.content}}
+        </div>
+    </div>
+</div>
+{% endblock %}

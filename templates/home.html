@@ -10,20 +10,23 @@
     {% for post in posts %}
     <div class="post">
         <div class="title">
-            <h2>{{ post.title }}</h2>
+            <a class="article-title" href="/post/{{post.id}}"><h2>{{ post.title }}</h2></a>
         </div>
         <hr/>
         <div class="date-author">
+            <!-- TODO: Add the profile pic somewhere -->
             <div class="date">
                 {{post.date_posted|date:"M d Y"}}
             </div>
             <div class="author">
+                <a class="article-title" href="/profiles/{{post.author.id}}">
                 {{post.author}}
+                </a>
             </div>
         </div>
         <hr/>
         <div class="content">
-            {{post.content}}
+            {{post.content|truncatechars:60 }}
         </div>
     </div>
     {% endfor %}

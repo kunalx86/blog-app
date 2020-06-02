@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from .models import Profile
 
@@ -31,10 +32,15 @@ def profile(request):
     else:   
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
-    user = request.user
-    profile = Profile.objects.filter(user=user).first()
     context = {
         'u_form': u_form,
         'p_form': p_form
     }
     return render(request, "profile.html", context)
+
+def profile_id(request, pk):
+    profile_user = User.objects.filter(id=pk).first()
+    context = {
+        'user': profile_user
+    }
+    return render(request, 'profile_id.html', context)
