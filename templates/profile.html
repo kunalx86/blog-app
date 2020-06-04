@@ -4,7 +4,7 @@
     <div class="media">
         <img class="rounded-circle account-img" width="60px" height="60px" src="{{ user.profile.image.url }}"/>
         <div class="media-body">
-            <h2 class="account-heading">{{ user.profile.name }}</h2>
+            <h2 class="account-heading">{{ user.first_name }}</h2>
             <p style="margin: 0.3rem" class="text-secondary">{{ user.email }}</p>
             <a class="article-title" href="{% url 'post-create' %}" style="font-size: large;">Click to write a new blog!</a>
         </div>
