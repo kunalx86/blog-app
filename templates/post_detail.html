@@ -30,4 +30,10 @@
         </div>
     </div>
 </div>
+<div class="container post-container">
+    Comments ({{comments.count}})
+    {% for comment in comments %}
+        {{comment.body}}
+    {% endfor %}
+</div>
 {% endblock %}
