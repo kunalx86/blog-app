@@ -13,6 +13,7 @@
     <div class="post post-detail">
         <div class="title">
             <h2>{{ post.title }}</h2>
+            <!-- <div style="visibility: hidden;">{{post.id}}</div> -->
         </div>
         <hr/>
         <div class="date-author">
@@ -30,7 +31,7 @@
         </div>
     </div>
 </div>
-<div class="container post-container" style="padding: 1rem;">
+<div class="container post-container" style="padding: 2rem;">
     <form method='POST'>
         <fieldset class="form-group">
             <legend class="border-bottom">Write a comment</legend>
@@ -48,18 +49,88 @@
         </div>
     </form>
 </div>
-<div class="container post-container">
-    {{comments.count}} Comment{{ comments|pluralize }}
+<div class="container post-container" style="padding: 1.5rem;">
+    {{comments.count}} Comment{{comments|pluralize}}
     <hr/>
     {% for comment in comments %}
+        <!-- <div class="loading">
+            Loading...
+        </div> -->
         <div class="comment">
             <div class="comment-body">
                 {{comment.body}}
             </div>
             <small class='comment-author'>
-                by -{{comment.author.username}} on {{comment.date_posted|date:"M d Y"}}
+                By - {{comment.author.username}} on {{comment.date_posted|date:"M d Y"}}
             </small>
+            <button class='reply-btn btn btn-outline-dark ml-2'> Reply </button>
         </div>
+        <div class='replied-comments ml-5'  style='display: none;'>
+            {% for reply in comment.reply.all %}
+            <div class="comment" style="font-size: small;">
+                <div class="comment-body">
+                    {{reply.body}}
+                </div>
+                <small class='comment-author'>
+                    By - {{reply.author.username}} on {{reply.date_posted|date:"M d Y"}}
+                </small>
+            </div>
+            {% endfor %}
+            <div class="form-group"'>
+                <form method='POST'>
+                    <fieldset class="form-group">
+                        <legend class="border-bottom">Reply</legend>
+                    </fieldset>
+                    {% csrf_token %}
+                    <input type="hidden" name="comment_id" value="{{comment.id}}">
+                    {{comment_form|crispy}}
+                    <div class="form-group">
+                        {% if request.user.is_authenticated %}
+                        <button class="btn btn-outline-info" type="submit">Reply!</button>
+                        {% else %}
+                        <small class="text-muted">
+                            <a href="{% url 'login' %}" >Log In</a> to be able to reply
+                        </small>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+        </div>
+        <hr/>
     {% endfor %}
 </div>
-{% endblock %}
+{% endblock content %}
+
+{% block script %}
+<script>
+    // $(document).ready(() => {
+    //     const postId = '{{post.id}}'; 
+    //     $.ajax({
+    //         type: 'GET',
+    //         headers: {
+    //             'X-CSRFToken': csrfToken, 
+    //         },
+    //         url: "{% url 'get_comments' %}",
+    //         data: {'post_id': postId},
+    //         dataType: 'json',
+    //         success: (data) => {
+    //             $('.loading').hide();
+    //             const comments = data['comments'];
+    //             comments.forEach(comment => {
+    //                 console.log(comment);
+    //                 $('.comment-body').html(comment.body);
+    //                 $('.comment-author').html(`-by ${comment.author} on ${comment.date_posted}`);
+    //             });
+    //         },
+    //         error: (error) => {
+    //             console.log(error);
+    //         },
+    //     });
+    // });
+    $(document).ready(() => {
+        $('.reply-btn').click(function() {
+            $(this).parent().next('.replied-comments').fadeToggle();
+        });
+    });
+</script>
+{% endblock script %}

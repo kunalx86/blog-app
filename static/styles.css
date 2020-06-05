@@ -230,6 +230,16 @@ footer {
     padding-left: 0.7rem;
 }
 
+/* .comment-textarea {
+    height: 30px;
+    width: 300px;
+}
+
+textarea.form-control {
+    height: 50px;
+    width: 400px;
+} */
+
 @media only screen and (max-width: 600px) {
     .container {
         margin-right: 0;
