@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.template.loader import render_to_string
 from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
@@ -23,7 +24,8 @@ class PostDetailView(DetailView):
         context['comments'] = Comment.objects.filter(post=context['object'].id, parent=None).all().order_by('-date_posted')
         return context
 
-    def post(self, request, pk):
+    def post(self, request, pk, *args, **kwargs):
+        self.object = self.get_object()
         comment_form = CommentCreateForm(request.POST or None)
         if comment_form.is_valid():
             body = request.POST.get('body')
@@ -34,6 +36,9 @@ class PostDetailView(DetailView):
                 comment_qs = Comment.objects.get(id=reply_id)
             comment = Comment.objects.create(body=body, author=self.request.user, post=post, parent=comment_qs)
             comment.save()
+            if self.request.is_ajax():
+                html = render_to_string('comments.html', self.get_context_data(**kwargs), request=self.request)
+                return JsonResponse({'html': html})
             return redirect("post-detail", pk=pk)
 
 class PostCreateView(LoginRequiredMixin, CreateView):

@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load crispy_forms_tags %}
 {% block content %}
 <style> 
     footer {
@@ -31,105 +30,46 @@
         </div>
     </div>
 </div>
-<div class="container post-container" style="padding: 2rem;">
-    <form method='POST'>
-        <fieldset class="form-group">
-            <legend class="border-bottom">Write a comment</legend>
-        </fieldset>
-        {% csrf_token %}
-        {{comment_form|crispy}}
-        <div class="form-group">
-            {% if request.user.is_authenticated %}
-            <button class="btn btn-outline-info" type="submit">Comment!</button>
-            {% else %}
-            <small class="text-muted">
-                <a href="{% url 'login' %}" >Log In</a> to be able to comment
-            </small>
-            {% endif %}
-        </div>
-    </form>
-</div>
-<div class="container post-container" style="padding: 1.5rem;">
-    {{comments.count}} Comment{{comments|pluralize}}
-    <hr/>
-    {% for comment in comments %}
-        <!-- <div class="loading">
-            Loading...
-        </div> -->
-        <div class="comment">
-            <div class="comment-body">
-                {{comment.body}}
-            </div>
-            <small class='comment-author'>
-                By - {{comment.author.username}} on {{comment.date_posted|date:"M d Y"}}
-            </small>
-            <button class='reply-btn btn btn-outline-dark ml-2'> Reply </button>
-        </div>
-        <div class='replied-comments ml-5'  style='display: none;'>
-            {% for reply in comment.reply.all %}
-            <div class="comment" style="font-size: small;">
-                <div class="comment-body">
-                    {{reply.body}}
-                </div>
-                <small class='comment-author'>
-                    By - {{reply.author.username}} on {{reply.date_posted|date:"M d Y"}}
-                </small>
-            </div>
-            {% endfor %}
-            <div class="form-group"'>
-                <form method='POST'>
-                    <fieldset class="form-group">
-                        <legend class="border-bottom">Reply</legend>
-                    </fieldset>
-                    {% csrf_token %}
-                    <input type="hidden" name="comment_id" value="{{comment.id}}">
-                    {{comment_form|crispy}}
-                    <div class="form-group">
-                        {% if request.user.is_authenticated %}
-                        <button class="btn btn-outline-info" type="submit">Reply!</button>
-                        {% else %}
-                        <small class="text-muted">
-                            <a href="{% url 'login' %}" >Log In</a> to be able to reply
-                        </small>
-                        {% endif %}
-                    </div>
-                </form>
-            </div>
-        </div>
-        <hr/>
-    {% endfor %}
+<div class="root-comments">
+    {% include 'comments.html' %}
 </div>
 {% endblock content %}
 
 {% block script %}
 <script>
-    // $(document).ready(() => {
-    //     const postId = '{{post.id}}'; 
-    //     $.ajax({
-    //         type: 'GET',
-    //         headers: {
-    //             'X-CSRFToken': csrfToken, 
-    //         },
-    //         url: "{% url 'get_comments' %}",
-    //         data: {'post_id': postId},
-    //         dataType: 'json',
-    //         success: (data) => {
-    //             $('.loading').hide();
-    //             const comments = data['comments'];
-    //             comments.forEach(comment => {
-    //                 console.log(comment);
-    //                 $('.comment-body').html(comment.body);
-    //                 $('.comment-author').html(`-by ${comment.author} on ${comment.date_posted}`);
-    //             });
-    //         },
-    //         error: (error) => {
-    //             console.log(error);
-    //         },
-    //     });
-    // });
     $(document).ready(() => {
         $('.reply-btn').click(function() {
             $(this).parent().next('.replied-comments').fadeToggle();
+        });
+        $(document).on('submit', '.comment-form', function(event) {
+            event.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'post-detail' post.id %}",
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function(response) {
+                    $('.root-comments').html(response['html']);
+                },  
+                error: function(response, error) {
+                    console.log(response.responseText);
+                },
+            });
+        });
+        $(document).on('submit', '.reply-form', function(event) {
+            event.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'post-detail' post.id %}",
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function(response) {
+                    $('.root-comments').html(response['html']);
+                },  
+                error: function(response, error) {
+                    console.log(response.responseText);
+                },
+            });
         });
     });
 </script>
