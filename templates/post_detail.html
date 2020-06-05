@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% load crispy_forms_tags %}
 {% block content %}
 <style> 
     footer {
@@ -30,10 +30,36 @@
         </div>
     </div>
 </div>
+<div class="container post-container" style="padding: 1rem;">
+    <form method='POST'>
+        <fieldset class="form-group">
+            <legend class="border-bottom">Write a comment</legend>
+        </fieldset>
+        {% csrf_token %}
+        {{comment_form|crispy}}
+        <div class="form-group">
+            {% if request.user.is_authenticated %}
+            <button class="btn btn-outline-info" type="submit">Comment!</button>
+            {% else %}
+            <small class="text-muted">
+                <a href="{% url 'login' %}" >Log In</a> to be able to comment
+            </small>
+            {% endif %}
+        </div>
+    </form>
+</div>
 <div class="container post-container">
-    Comments ({{comments.count}})
+    {{comments.count}} Comment{{ comments|pluralize }}
+    <hr/>
     {% for comment in comments %}
-        {{comment.body}}
+        <div class="comment">
+            <div class="comment-body">
+                {{comment.body}}
+            </div>
+            <small class='comment-author'>
+                by -{{comment.author.username}} on {{comment.date_posted|date:"M d Y"}}
+            </small>
+        </div>
     {% endfor %}
 </div>
 {% endblock %}

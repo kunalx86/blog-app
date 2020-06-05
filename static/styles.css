@@ -221,6 +221,15 @@ footer {
     width: 80%;
 }
 
+.comment {
+    padding: 1rem;
+}
+
+.comment-author {
+    margin-top: 0.5rem;
+    padding-left: 0.7rem;
+}
+
 @media only screen and (max-width: 600px) {
     .container {
         margin-right: 0;

@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Post, Comment
+from .forms import CommentCreateForm
 
 class PostListView(ListView):
     model = Post
@@ -16,6 +17,8 @@ class PostDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            context['comment_form'] = CommentCreateForm()
         context['comments'] = Comment.objects.filter(post=context['object'].id).all().order_by('-date_posted')
         return context
 

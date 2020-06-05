@@ -27,9 +27,9 @@ class Comment(models.Model):
     '''
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
     author = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    body = models.TextField(blank=False)
+    body = models.TextField(blank=False, max_length=200)
     date_posted = models.DateTimeField(default=timezone.now)
-    parent = models.ForeignKey('self', null=True, on_delete=models.CASCADE, blank=True)
+    parent = models.ForeignKey('self', related_name='reply', null=True, on_delete=models.CASCADE, blank=True)
 
     def __str__(self):
         return f'On {self.post.title} by {self.author.first_name}'
