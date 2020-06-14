@@ -1,0 +1,17 @@
+{% load crispy_forms_tags %}
+    <form method='POST' class='comment-form'>
+        <fieldset class="form-group">
+            <legend class="border-bottom">Write a comment</legend>
+        </fieldset>
+        {% csrf_token %}
+        {{comment_form|crispy}}
+        <div class="form-group">
+            {% if request.user.is_authenticated %}
+            <button class="btn btn-outline-info" type="submit">Comment!</button>
+            {% else %}
+            <small class="text-muted">
+                <a href="{% url 'login' %}" >Log In</a> to be able to comment
+            </small>
+            {% endif %}
+        </div>
+    </form>

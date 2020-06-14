@@ -31,13 +31,25 @@
     </div>
 </div>
 <div class="root-comments">
-    {% include 'comments.html' %}
+    <div class="container post-container" style="padding: 2rem;">
+        {% include 'comment-form.html' %}
+    </div> 
+    <div class="container post-container comments" style="padding: 1.5rem;">
+
+    </div>  
 </div>
 {% endblock content %}
 
 {% block script %}
 <script>
     $(document).ready(() => {
+        $.ajax({
+            type: 'GET',
+            url: '/comments/?post_id={{ post.id }}',
+            success: function(reponse) {
+                $('.comments').html(reponse['html']);
+            },
+        }); 
         $('.reply-btn').click(function() {
             $(this).parent().next('.replied-comments').fadeToggle();
         });
@@ -49,8 +61,8 @@
                 data: $(this).serialize(),
                 dataType: 'json',
                 success: function(response) {
-                    $('.root-comments').html(response['html']);
-                },  
+                    $('.comments').html(response['html']);
+                },
                 error: function(response, error) {
                     console.log(response.responseText);
                 },
@@ -64,7 +76,7 @@
                 data: $(this).serialize(),
                 dataType: 'json',
                 success: function(response) {
-                    $('.root-comments').html(response['html']);
+                    $('.comments').html(response['html']);
                 },  
                 error: function(response, error) {
                     console.log(response.responseText);

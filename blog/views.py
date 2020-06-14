@@ -74,8 +74,9 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 def get_comments(request):
     post_id = request.GET.get('post_id', None)
-    comments = list(Comment.objects.filter(post=post_id).all().order_by('-date_posted').values())
-    return JsonResponse({'comments': comments}, safe=False)
+    comments = Comment.objects.filter(post=post_id, parent=None).all().order_by('-date_posted')
+    html = render_to_string('comments.html', context={'comments': comments}, request=request)
+    return JsonResponse({'html': html})
 
 def about(request):
     context = {}
