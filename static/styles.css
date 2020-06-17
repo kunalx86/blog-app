@@ -8,10 +8,14 @@ body {
 #root {
     padding: 10px;
     margin: 0px;
-    margin-top: 2rem;
+    margin-top: 5rem;
 }
 
 .navbar {
+    margin: 0;
+    top: 0;
+    width: 100%;
+    position: fixed;
     background-color: rgb(29, 29, 29);
     overflow: hidden;
     display: flex;
