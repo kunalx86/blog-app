@@ -36,7 +36,8 @@ class PostDetailView(DetailView):
                 comment_qs = Comment.objects.get(id=reply_id)
             comment = Comment.objects.create(body=body, author=self.request.user, post=post, parent=comment_qs)
             comment.save()
-            if self.request.is_ajax():
+            is_ajax = self.request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest'
+            if is_ajax:
                 html = render_to_string('comments.html', self.get_context_data(**kwargs), request=self.request)
                 return JsonResponse({'html': html})
             return redirect("post-detail", pk=pk)

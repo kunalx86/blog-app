@@ -28,8 +28,8 @@
                     <fieldset class="form-group">
                         <legend class="border-bottom">Reply</legend>
                     </fieldset>
-                    {% csrf_token %}
                     <input type="hidden" class='comment_id' name="comment_id" value="{{comment.id}}">
+                    {% csrf_token %}
                     {{comment_form|crispy}}
                     <div class="form-group">
                         {% if request.user.is_authenticated %}

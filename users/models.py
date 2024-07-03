@@ -10,11 +10,11 @@ class Profile(models.Model):
     def __str__(self):
         return f'{self.name} Profile' 
 
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        img = Image.open(self.image.path)
+    # def save(self, *args, **kwargs):
+        # super().save(*args, **kwargs)
+        # img = Image.open(self.image.path)
 
-        if img.height > 120 or img.width > 120:
-            output_size = (120, 120)
-            img.thumbnail(output_size)
-            img.save(self.image.path)
+        # if img.height > 120 or img.width > 120:
+            # output_size = (120, 120)
+            # img.thumbnail(output_size)
+            # img.save(self.image.path)
